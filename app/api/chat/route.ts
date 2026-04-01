@@ -1,5 +1,5 @@
 import { streamText, convertToModelMessages } from 'ai'
-import { createAnthropic } from '@ai-sdk/anthropic'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
 import { z } from 'zod'
 import { createClient } from '@/lib/supabase/server'
 import { getBusinessByUserId } from '@/lib/db/businesses'
@@ -31,9 +31,9 @@ export async function POST(req: Request) {
   }
 
   // Check API key
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GOOGLE_AI_API_KEY) {
     return new Response(
-      JSON.stringify({ error: 'AI not configured. Add ANTHROPIC_API_KEY to your environment.' }),
+      JSON.stringify({ error: 'AI not configured. Add GOOGLE_AI_API_KEY to your environment.' }),
       { status: 503, headers: { 'Content-Type': 'application/json' } },
     )
   }
@@ -54,10 +54,10 @@ export async function POST(req: Request) {
 
   const system = business ? buildSystemPrompt(business) : defaultSystemPrompt()
 
-  const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  const gemini = createGoogleGenerativeAI({ apiKey: process.env.GOOGLE_AI_API_KEY })
 
   const result = streamText({
-    model: anthropic('claude-sonnet-4-6'),
+    model: gemini('gemini-2.5-flash'),
     system,
     messages: modelMessages,
     tools: {
