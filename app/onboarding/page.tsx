@@ -42,7 +42,7 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
       >
         <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-5">
           <Link href="/">
-            <Image src="/logo-dark.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
+            <Image src="/logo.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
           </Link>
 
           <StepIndicator current={currentStep} total={2} />

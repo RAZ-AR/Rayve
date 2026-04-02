@@ -34,7 +34,7 @@ export function MobileNav() {
 
       {/* Logo in mobile bar */}
       <Link href="/dashboard" className="absolute left-1/2 -translate-x-1/2">
-        <Image src="/logo-dark.svg" alt="Rayve" width={80} height={20} style={{ height: 20, width: 'auto' }} />
+        <Image src="/logo.svg" alt="Rayve" width={80} height={20} style={{ height: 20, width: 'auto' }} />
       </Link>
 
       {/* Backdrop */}
@@ -55,7 +55,7 @@ export function MobileNav() {
           className="flex h-14 items-center justify-between px-5"
           style={{ borderBottom: '1px solid var(--sidebar-border)' }}
         >
-          <Image src="/logo-dark.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
+          <Image src="/logo.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
           <button
             onClick={() => setOpen(false)}
             className="flex h-7 w-7 items-center justify-center rounded-lg transition-all"

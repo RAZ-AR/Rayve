@@ -14,7 +14,7 @@ export function LandingNav() {
 
         {/* Logo */}
         <Link href="/">
-          <Image src="/logo-dark.svg" alt="Rayve" width={96} height={24} style={{ height: 24, width: 'auto' }} />
+          <Image src="/logo.svg" alt="Rayve" width={96} height={24} style={{ height: 24, width: 'auto' }} />
         </Link>
 
         {/* Right actions */}

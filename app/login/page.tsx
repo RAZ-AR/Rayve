@@ -66,7 +66,7 @@ export default function LoginPage() {
 
           {/* Mobile logo */}
           <Link href="/" className="mb-8 block lg:hidden">
-            <Image src="/logo-dark.svg" alt="Rayve" width={90} height={22} style={{ height: 22, width: 'auto' }} />
+            <Image src="/logo.svg" alt="Rayve" width={90} height={22} style={{ height: 22, width: 'auto' }} />
           </Link>
 
           <div className="mb-7">
