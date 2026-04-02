@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { LoginForm } from '@/components/auth/LoginForm'
 
 export default function LoginPage() {
@@ -26,14 +27,8 @@ export default function LoginPage() {
 
         {/* Logo */}
         <div className="relative z-10 flex h-16 items-center px-8">
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-xl" style={{ background: 'rgba(255,255,255,0.2)' }}>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <span className="text-sm font-black tracking-tight text-white">Rayve</span>
+          <Link href="/">
+            <Image src="/logo.svg" alt="Rayve" width={100} height={25} style={{ height: 25, width: 'auto' }} />
           </Link>
         </div>
 
@@ -70,14 +65,8 @@ export default function LoginPage() {
         <div className="w-full max-w-[360px]">
 
           {/* Mobile logo */}
-          <Link href="/" className="mb-8 flex items-center gap-2 lg:hidden">
-            <div className="flex h-6 w-6 items-center justify-center rounded-xl" style={{ background: 'var(--accent)' }}>
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
+          <Link href="/" className="mb-8 block lg:hidden">
+            <Image src="/logo-dark.svg" alt="Rayve" width={90} height={22} style={{ height: 22, width: 'auto' }} />
           </Link>
 
           <div className="mb-7">

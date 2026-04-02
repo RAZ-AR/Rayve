@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const NAV = [
@@ -32,14 +33,8 @@ export function MobileNav() {
       </button>
 
       {/* Logo in mobile bar */}
-      <Link href="/dashboard" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-        <div className="flex h-6 w-6 items-center justify-center rounded-lg" style={{ background: 'var(--accent)' }}>
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-            <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </div>
-        <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
+      <Link href="/dashboard" className="absolute left-1/2 -translate-x-1/2">
+        <Image src="/logo-dark.svg" alt="Rayve" width={80} height={20} style={{ height: 20, width: 'auto' }} />
       </Link>
 
       {/* Backdrop */}
@@ -60,15 +55,7 @@ export function MobileNav() {
           className="flex h-14 items-center justify-between px-5"
           style={{ borderBottom: '1px solid var(--sidebar-border)' }}
         >
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: 'var(--accent)' }}>
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
-          </div>
+          <Image src="/logo-dark.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
           <button
             onClick={() => setOpen(false)}
             className="flex h-7 w-7 items-center justify-center rounded-lg transition-all"

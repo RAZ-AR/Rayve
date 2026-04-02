@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 const NAV = [
@@ -29,13 +30,9 @@ export function AppSidebar() {
       {/* Logo */}
       <Link
         href="/dashboard"
-        className="mb-4 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all hover:opacity-90"
-        style={{ background: 'var(--accent)' }}
+        className="mb-4 flex h-9 w-9 shrink-0 items-center justify-center transition-all hover:opacity-85"
       >
-        <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
-          <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
+        <Image src="/logo-icon.svg" alt="Rayve" width={36} height={36} />
       </Link>
 
       {/* Divider */}

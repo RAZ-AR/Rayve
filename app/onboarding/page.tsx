@@ -1,6 +1,7 @@
 import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import type { Segment } from '@/lib/segments/types'
 import { SegmentSelector } from '@/components/onboarding/SegmentSelector'
@@ -40,17 +41,8 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
         }}
       >
         <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-5">
-          <Link href="/" className="flex items-center gap-2">
-            <div
-              className="flex h-6 w-6 items-center justify-center rounded-lg"
-              style={{ background: 'var(--accent)' }}
-            >
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              </svg>
-            </div>
-            <span className="text-sm font-black tracking-tight text-white">Rayve</span>
+          <Link href="/">
+            <Image src="/logo-dark.svg" alt="Rayve" width={88} height={22} style={{ height: 22, width: 'auto' }} />
           </Link>
 
           <StepIndicator current={currentStep} total={2} />
