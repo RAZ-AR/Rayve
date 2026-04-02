@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export function LandingNav() {
   return (
@@ -12,17 +13,8 @@ export function LandingNav() {
       <div className="mx-auto flex h-full max-w-5xl items-center justify-between px-5">
 
         {/* Logo */}
-        <Link href="/" className="group flex items-center gap-2.5">
-          <div
-            className="flex h-6 w-6 items-center justify-center rounded-lg shadow-inner"
-            style={{ background: 'var(--accent)', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.2)' }}
-          >
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-              <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <span className="text-[15px] font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
+        <Link href="/">
+          <Image src="/logo-dark.svg" alt="Rayve" width={96} height={24} style={{ height: 24, width: 'auto' }} />
         </Link>
 
         {/* Right actions */}
