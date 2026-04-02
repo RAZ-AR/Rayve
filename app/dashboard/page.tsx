@@ -136,7 +136,7 @@ export default async function DashboardPage() {
               <div className="space-y-3">
                 <CheckRow done label="Create account" />
                 <CheckRow done label="Business profile" />
-                <CheckRow label="Connect Meta Ads" href="/settings" />
+                <CheckRow done={!!business.meta_access_token} label="Connect Meta Ads" href="/settings" />
                 <CheckRow label="First campaign" href="/chat" />
               </div>
             </div>
