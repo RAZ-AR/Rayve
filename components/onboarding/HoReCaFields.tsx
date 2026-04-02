@@ -3,14 +3,15 @@
 import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls, textareaCls } from './FormField'
+import { StepHeader, FormError, FormActions } from './RetailFields'
 
 const VENUE_TYPES = [
-  { id: 'restaurant',    label: 'Restaurant' },
-  { id: 'cafe',          label: 'Café / Coffee' },
-  { id: 'bar',           label: 'Bar / Pub' },
-  { id: 'dark_kitchen',  label: 'Dark kitchen' },
-  { id: 'catering',      label: 'Catering' },
-  { id: 'bakery',        label: 'Bakery' },
+  { id: 'restaurant',   label: 'Restaurant' },
+  { id: 'cafe',         label: 'Café / Coffee' },
+  { id: 'bar',          label: 'Bar / Pub' },
+  { id: 'dark_kitchen', label: 'Dark kitchen' },
+  { id: 'catering',     label: 'Catering' },
+  { id: 'bakery',       label: 'Bakery' },
 ]
 
 const CUISINES = [
@@ -28,11 +29,11 @@ const ORDER_CHANNELS = [
 ]
 
 export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
-  const [venueTypes, setVenueTypes]   = useState<string[]>([])
-  const [orderChannels, setChannels]  = useState<string[]>([])
-  const [dishes, setDishes]           = useState(['', '', '', '', ''])
-  const [error, setError]             = useState<string | null>(null)
-  const [isPending, startTransition]  = useTransition()
+  const [venueTypes,    setVenueTypes]  = useState<string[]>([])
+  const [orderChannels, setChannels]   = useState<string[]>([])
+  const [dishes,        setDishes]     = useState(['', '', '', '', ''])
+  const [error,         setError]      = useState<string | null>(null)
+  const [isPending,     startTransition] = useTransition()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -50,14 +51,12 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
   }
 
   return (
-    <div className="w-full max-w-lg animate-fade-in">
-      <div className="mb-8">
-        <p className="text-label mb-3">Onboarding · Step 2 of 2</p>
-        <h1 className="text-headline text-white">Tell us about your venue</h1>
-        <p className="mt-2 text-sm text-[#888]">
-          Rayve uses this to build ads that bring in the right customers.
-        </p>
-      </div>
+    <div className="w-full animate-fade-in">
+      <StepHeader
+        step="Step 2 of 2"
+        title="Tell us about your venue"
+        subtitle="Rayve uses this to build ads that bring in the right customers."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Field label="Venue / brand name" required>
@@ -88,9 +87,7 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
             {dishes.map((val, i) => (
               <input
                 key={i} type="text" value={val}
-                onChange={(e) => {
-                  const u = [...dishes]; u[i] = e.target.value; setDishes(u)
-                }}
+                onChange={(e) => { const u = [...dishes]; u[i] = e.target.value; setDishes(u) }}
                 placeholder={`Dish ${i + 1}`}
                 className={inputCls}
               />
@@ -119,28 +116,8 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
           </Field>
         </div>
 
-        {error && (
-          <div className="rounded-md border border-red-500/20 bg-red-500/[0.06] px-3 py-2.5 text-xs text-red-400">
-            {error}
-          </div>
-        )}
-
-        <div className="flex items-center gap-3 pt-2">
-          <a href="/onboarding?step=1" className="flex h-9 items-center rounded-md border border-white/[0.08] px-4 text-sm text-[#888] transition-all hover:border-white/[0.14] hover:text-white">
-            ← Back
-          </a>
-          <button
-            type="submit" disabled={isPending}
-            className="flex h-9 flex-1 items-center justify-center rounded-md bg-violet-600 text-sm font-medium text-white ring-1 ring-violet-500/50 transition-all hover:bg-violet-500 disabled:opacity-40"
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border border-white/30 border-t-white" />
-                Saving…
-              </span>
-            ) : 'Continue to dashboard →'}
-          </button>
-        </div>
+        <FormError error={error} />
+        <FormActions isPending={isPending} />
       </form>
     </div>
   )

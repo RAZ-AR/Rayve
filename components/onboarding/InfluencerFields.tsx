@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls } from './FormField'
+import { StepHeader, FormError, FormActions } from './RetailFields'
 
 const NICHES = ['Lifestyle','Fitness & Health','Beauty & Fashion','Food & Cooking','Finance & Business','Travel','Gaming','Tech','Other']
 
@@ -27,8 +28,8 @@ const VOICES = ['Casual & friendly','Educational','Entertaining & fun','Premium 
 export function InfluencerFields({ sourceDomain }: { sourceDomain: string }) {
   const [platforms,    setPlatforms]    = useState<string[]>([])
   const [monetization, setMonetization] = useState<string[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [isPending, startTransition] = useTransition()
+  const [error,        setError]        = useState<string | null>(null)
+  const [isPending,    startTransition] = useTransition()
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -45,14 +46,12 @@ export function InfluencerFields({ sourceDomain }: { sourceDomain: string }) {
   }
 
   return (
-    <div className="w-full max-w-lg animate-fade-in">
-      <div className="mb-8">
-        <p className="text-label mb-3">Onboarding · Step 2 of 2</p>
-        <h1 className="text-headline text-white">Tell us about your brand</h1>
-        <p className="mt-2 text-sm text-[#888]">
-          Rayve will match your voice and target your ideal audience.
-        </p>
-      </div>
+    <div className="w-full animate-fade-in">
+      <StepHeader
+        step="Step 2 of 2"
+        title="Tell us about your brand"
+        subtitle="Rayve will match your voice and target your ideal audience."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid gap-3 sm:grid-cols-2">
@@ -105,28 +104,8 @@ export function InfluencerFields({ sourceDomain }: { sourceDomain: string }) {
           <input name="link_in_bio_url" type="url" placeholder="https://linktr.ee/you" className={inputCls} />
         </Field>
 
-        {error && (
-          <div className="rounded-md border border-red-500/20 bg-red-500/[0.06] px-3 py-2.5 text-xs text-red-400">
-            {error}
-          </div>
-        )}
-
-        <div className="flex items-center gap-3 pt-2">
-          <a href="/onboarding?step=1" className="flex h-9 items-center rounded-md border border-white/[0.08] px-4 text-sm text-[#888] transition-all hover:border-white/[0.14] hover:text-white">
-            ← Back
-          </a>
-          <button
-            type="submit" disabled={isPending}
-            className="flex h-9 flex-1 items-center justify-center rounded-md bg-violet-600 text-sm font-medium text-white ring-1 ring-violet-500/50 transition-all hover:bg-violet-500 disabled:opacity-40"
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border border-white/30 border-t-white" />
-                Saving…
-              </span>
-            ) : 'Continue to dashboard →'}
-          </button>
-        </div>
+        <FormError error={error} />
+        <FormActions isPending={isPending} />
       </form>
     </div>
   )

@@ -1,17 +1,13 @@
 import { cn } from '@/lib/utils'
 
 export const inputCls =
-  'h-9 w-full rounded-md border border-white/[0.08] bg-white/[0.03] px-3 text-sm text-white placeholder:text-[#505050] outline-none transition-all focus:border-violet-500/60 focus:bg-white/[0.05] focus:ring-1 focus:ring-violet-500/30'
+  'h-9 w-full rounded-xl border px-3 text-sm outline-none transition-all' +
+  ' border-[var(--border)] bg-white text-[var(--text)] placeholder:text-[var(--text-muted)]' +
+  ' focus:border-[var(--accent)] focus:ring-2 focus:ring-[rgba(124,58,237,0.08)]'
 
-export const selectCls = cn(
-  inputCls,
-  'appearance-none cursor-pointer'
-)
+export const selectCls = cn(inputCls, 'appearance-none cursor-pointer')
 
-export const textareaCls = cn(
-  inputCls,
-  'h-auto resize-none py-2.5'
-)
+export const textareaCls = cn(inputCls, 'h-auto resize-none py-2.5')
 
 interface FieldProps {
   label: string
@@ -25,11 +21,11 @@ export function Field({ label, required, hint, children, className }: FieldProps
   return (
     <div className={className}>
       <div className="mb-1.5 flex items-baseline justify-between">
-        <label className="text-xs font-medium text-[#888]">
+        <label className="text-xs font-semibold" style={{ color: 'var(--text-secondary)' }}>
           {label}
-          {required && <span className="ml-0.5 text-red-400">*</span>}
+          {required && <span className="ml-0.5" style={{ color: '#EF4444' }}>*</span>}
         </label>
-        {hint && <span className="text-[11px] text-[#505050]">{hint}</span>}
+        {hint && <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{hint}</span>}
       </div>
       {children}
     </div>
@@ -48,27 +44,32 @@ export function ChipGroup({ options, selected, onChange, color = 'violet' }: Chi
     onChange(selected.includes(id) ? selected.filter((x) => x !== id) : [...selected, id])
   }
 
-  const activeClass =
-    color === 'pink'
-      ? 'border-pink-500/40 bg-pink-500/[0.10] text-pink-300'
-      : 'border-violet-500/40 bg-violet-500/[0.10] text-violet-300'
-
   return (
     <div className="flex flex-wrap gap-1.5">
-      {options.map(({ id, label }) => (
-        <button
-          key={id}
-          type="button"
-          onClick={() => toggle(id)}
-          className={`rounded-md border px-2.5 py-1 text-xs transition-all ${
-            selected.includes(id)
-              ? activeClass
-              : 'border-white/[0.08] bg-white/[0.02] text-[#888] hover:border-white/[0.14] hover:text-white'
-          }`}
-        >
-          {label}
-        </button>
-      ))}
+      {options.map(({ id, label }) => {
+        const isActive = selected.includes(id)
+        const activeStyle =
+          color === 'pink'
+            ? { border: '1px solid rgba(236,72,153,0.4)', background: 'rgba(236,72,153,0.08)', color: '#DB2777' }
+            : { border: '1px solid rgba(124,58,237,0.4)', background: 'rgba(124,58,237,0.08)', color: '#7C3AED' }
+        const inactiveStyle = {
+          border: '1px solid var(--border)',
+          background: 'white',
+          color: 'var(--text-secondary)',
+        }
+
+        return (
+          <button
+            key={id}
+            type="button"
+            onClick={() => toggle(id)}
+            className="rounded-xl px-3 py-1.5 text-xs font-medium transition-all hover:border-violet-300"
+            style={isActive ? activeStyle : inactiveStyle}
+          >
+            {label}
+          </button>
+        )
+      })}
     </div>
   )
 }

@@ -35,14 +35,12 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
   }
 
   return (
-    <div className="w-full max-w-lg animate-fade-in">
-      <div className="mb-8">
-        <p className="text-label mb-3">Onboarding · Step 2 of 2</p>
-        <h1 className="text-headline text-white">Tell us about your shop</h1>
-        <p className="mt-2 text-sm text-[#888]">
-          Rayve uses this to write ads that speak to your actual customers.
-        </p>
-      </div>
+    <div className="w-full animate-fade-in">
+      <StepHeader
+        step="Step 2 of 2"
+        title="Tell us about your shop"
+        subtitle="Rayve uses this to write ads that speak to your actual customers."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Field label="Store / brand name" required>
@@ -69,9 +67,7 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
             {products.map((val, i) => (
               <input
                 key={i} type="text" value={val}
-                onChange={(e) => {
-                  const u = [...products]; u[i] = e.target.value; setProducts(u)
-                }}
+                onChange={(e) => { const u = [...products]; u[i] = e.target.value; setProducts(u) }}
                 placeholder={`Product ${i + 1}`}
                 className={inputCls}
               />
@@ -96,29 +92,63 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
           </Field>
         </div>
 
-        {error && (
-          <div className="rounded-md border border-red-500/20 bg-red-500/[0.06] px-3 py-2.5 text-xs text-red-400">
-            {error}
-          </div>
-        )}
+        <FormError error={error} />
 
-        <div className="flex items-center gap-3 pt-2">
-          <a href="/onboarding?step=1" className="flex h-9 items-center rounded-md border border-white/[0.08] px-4 text-sm text-[#888] transition-all hover:border-white/[0.14] hover:text-white">
-            ← Back
-          </a>
-          <button
-            type="submit" disabled={isPending}
-            className="flex h-9 flex-1 items-center justify-center rounded-md bg-violet-600 text-sm font-medium text-white ring-1 ring-violet-500/50 transition-all hover:bg-violet-500 disabled:opacity-40"
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border border-white/30 border-t-white" />
-                Saving…
-              </span>
-            ) : 'Continue to dashboard →'}
-          </button>
-        </div>
+        <FormActions isPending={isPending} />
       </form>
+    </div>
+  )
+}
+
+/* ── Shared sub-components ── */
+export function StepHeader({ step, title, subtitle }: { step: string; title: string; subtitle: string }) {
+  return (
+    <div className="mb-8">
+      <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+        Onboarding · {step}
+      </p>
+      <h1 className="mb-2 text-3xl font-black tracking-tight" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
+        {title}
+      </h1>
+      <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{subtitle}</p>
+    </div>
+  )
+}
+
+export function FormError({ error }: { error: string | null }) {
+  if (!error) return null
+  return (
+    <div
+      className="rounded-xl px-3 py-2.5 text-xs"
+      style={{ border: '1px solid rgba(220,38,38,0.2)', background: 'rgba(220,38,38,0.04)', color: '#DC2626' }}
+    >
+      {error}
+    </div>
+  )
+}
+
+export function FormActions({ isPending }: { isPending: boolean }) {
+  return (
+    <div className="flex items-center gap-3 pt-2">
+      <a
+        href="/onboarding?step=1"
+        className="flex h-10 items-center rounded-xl px-4 text-sm font-medium transition-all hover:opacity-80"
+        style={{ border: '1px solid var(--border)', background: 'white', color: 'var(--text-secondary)' }}
+      >
+        ← Back
+      </a>
+      <button
+        type="submit" disabled={isPending}
+        className="flex h-10 flex-1 items-center justify-center rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90 disabled:opacity-40"
+        style={{ background: 'var(--accent)' }}
+      >
+        {isPending ? (
+          <span className="flex items-center gap-2">
+            <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30" style={{ borderTopColor: 'white' }} />
+            Saving…
+          </span>
+        ) : 'Continue to dashboard →'}
+      </button>
     </div>
   )
 }

@@ -26,40 +26,39 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
   const hint = (headersList.get('x-segment-hint') ?? 'generic') as Segment
   const sourceDomain = hint !== 'generic' ? hint : 'generic'
 
+  const currentStep = step === '1' || !segmentParam ? 1 : 2
+
   return (
-    <main className="min-h-screen bg-[#0a0a0a]">
+    <main className="min-h-screen" style={{ background: '#FAFAFA' }}>
 
-      {/* Dot grid */}
-      <div
-        className="pointer-events-none fixed inset-0 opacity-100"
+      {/* Top bar — dark Daybreak */}
+      <header
+        className="sticky top-0 z-20"
         style={{
-          backgroundImage: 'radial-gradient(rgba(255,255,255,0.03) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
+          background: 'var(--sidebar-bg)',
+          borderBottom: '1px solid var(--sidebar-border)',
         }}
-      />
-
-      {/* Top bar */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.06] bg-[#0a0a0a]/90 backdrop-blur-xl">
+      >
         <div className="mx-auto flex h-12 max-w-2xl items-center justify-between px-5">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-5 w-5 items-center justify-center rounded-[5px] bg-violet-600 ring-1 ring-violet-500/50">
+            <div
+              className="flex h-6 w-6 items-center justify-center rounded-lg"
+              style={{ background: 'var(--accent)' }}
+            >
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </div>
-            <span className="text-sm font-semibold tracking-tight text-white">Rayve</span>
+            <span className="text-sm font-black tracking-tight text-white">Rayve</span>
           </Link>
 
-          {/* Steps */}
-          <div className="flex items-center gap-2">
-            <StepIndicator current={step === '1' ? 1 : 2} total={2} />
-          </div>
+          <StepIndicator current={currentStep} total={2} />
         </div>
       </header>
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex max-w-2xl flex-col items-center px-5 py-12">
+      <div className="mx-auto flex max-w-lg flex-col px-5 py-10 pb-20">
         {step === '1' || !segmentParam ? (
           <SegmentSelector hint={hint} />
         ) : (
@@ -81,22 +80,28 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
       {Array.from({ length: total }, (_, i) => i + 1).map((n) => (
         <div key={n} className="flex items-center gap-2">
           <div
-            className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold transition-all ${
+            className="flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold transition-all"
+            style={
               n < current
-                ? 'bg-violet-600 text-white'
+                ? { background: 'var(--accent)', color: '#fff' }
                 : n === current
-                ? 'border border-violet-500 text-violet-400'
-                : 'border border-white/[0.12] text-[#505050]'
-            }`}
+                ? { border: '1.5px solid var(--accent)', color: 'rgba(196,181,253,0.9)', background: 'rgba(124,58,237,0.12)' }
+                : { border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.25)' }
+            }
           >
             {n < current ? '✓' : n}
           </div>
           {n < total && (
-            <div className={`h-px w-8 ${n < current ? 'bg-violet-600/40' : 'bg-white/[0.08]'}`} />
+            <div
+              className="h-px w-8 transition-all"
+              style={{ background: n < current ? 'rgba(124,58,237,0.5)' : 'rgba(255,255,255,0.08)' }}
+            />
           )}
         </div>
       ))}
-      <span className="ml-1 text-xs text-[#505050]">Step {current} of {total}</span>
+      <span className="ml-1 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+        Step {current} of {total}
+      </span>
     </div>
   )
 }

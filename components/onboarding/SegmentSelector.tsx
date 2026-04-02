@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation'
 import { SEGMENT_CONFIGS, SEGMENT_ORDER } from '@/lib/segments/config'
 import type { Segment } from '@/lib/segments/types'
-import { cn } from '@/lib/utils'
 
 interface SegmentSelectorProps {
   hint: Segment
@@ -17,18 +16,20 @@ export function SegmentSelector({ hint }: SegmentSelectorProps) {
   }
 
   return (
-    <div className="w-full max-w-lg animate-fade-in">
+    <div className="w-full animate-fade-in">
       <div className="mb-8">
-        <p className="text-label mb-3">Onboarding · Step 1 of 2</p>
-        <h1 className="text-headline text-white">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-muted)' }}>
+          Onboarding · Step 1 of 2
+        </p>
+        <h1 className="mb-2 text-3xl font-black tracking-tight" style={{ color: 'var(--text)', letterSpacing: '-0.03em' }}>
           What kind of business are you?
         </h1>
-        <p className="mt-2 text-sm text-[#888]">
+        <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           Rayve adapts everything — copy, strategy, and campaigns — to your segment.
         </p>
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         {SEGMENT_ORDER.map((segment) => {
           const config = SEGMENT_CONFIGS[segment]
           const isHinted = segment === hint
@@ -37,24 +38,40 @@ export function SegmentSelector({ hint }: SegmentSelectorProps) {
             <button
               key={segment}
               onClick={() => handleSelect(segment)}
-              className={cn(
-                'group relative flex flex-col items-start rounded-xl border p-5 text-left transition-all hover:border-white/[0.14] hover:bg-white/[0.04]',
-                isHinted
-                  ? 'border-violet-600/40 bg-violet-600/[0.06]'
-                  : 'border-white/[0.08] bg-white/[0.02]'
-              )}
+              className="group relative flex flex-col items-start rounded-2xl p-5 text-left transition-all hover:shadow-md active:scale-[0.99]"
+              style={{
+                background: isHinted ? 'rgba(124,58,237,0.04)' : 'white',
+                border: isHinted ? '1.5px solid rgba(124,58,237,0.3)' : '1px solid var(--border)',
+              }}
+              onMouseEnter={(e) => {
+                if (!isHinted) (e.currentTarget as HTMLElement).style.borderColor = 'rgba(124,58,237,0.25)'
+              }}
+              onMouseLeave={(e) => {
+                if (!isHinted) (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'
+              }}
             >
               {isHinted && (
-                <span className="absolute right-3 top-3 rounded-full bg-violet-600/20 px-2 py-0.5 text-[10px] font-medium text-violet-400">
+                <span
+                  className="absolute right-3 top-3 rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                  style={{ background: 'rgba(124,58,237,0.1)', color: 'var(--accent)' }}
+                >
                   Suggested
                 </span>
               )}
+
               <span className="mb-3 text-2xl">{config.iconEmoji}</span>
-              <p className="mb-1 text-sm font-semibold tracking-tight text-white">
+
+              <p className="mb-1 text-sm font-bold" style={{ color: 'var(--text)' }}>
                 {config.label}
               </p>
-              <p className="text-xs leading-relaxed text-[#888]">{config.description}</p>
-              <span className="mt-4 text-xs font-medium text-[#505050] transition-colors group-hover:text-violet-400">
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                {config.description}
+              </p>
+
+              <span
+                className="mt-4 flex items-center gap-1 text-xs font-semibold transition-colors group-hover:gap-2"
+                style={{ color: 'var(--accent)' }}
+              >
                 Select →
               </span>
             </button>
