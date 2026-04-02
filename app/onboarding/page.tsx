@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
+import { getBusinessByUserId } from '@/lib/db/businesses'
 import type { Segment } from '@/lib/segments/types'
 import { SegmentSelector } from '@/components/onboarding/SegmentSelector'
 import { RetailFields } from '@/components/onboarding/RetailFields'
@@ -11,7 +12,7 @@ import { HoReCaFields } from '@/components/onboarding/HoReCaFields'
 import { InfoBusinessFields } from '@/components/onboarding/InfoBusinessFields'
 
 interface PageProps {
-  searchParams: Promise<{ step?: string; segment?: string }>
+  searchParams: Promise<{ step?: string; segment?: string; edit?: string }>
 }
 
 export default async function OnboardingPage({ searchParams }: PageProps) {
@@ -22,12 +23,22 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
   const params = await searchParams
   const step = params.step ?? '1'
   const segmentParam = params.segment as Segment | undefined
+  const isEdit = params.edit === 'true'
 
   const headersList = await headers()
   const hint = (headersList.get('x-segment-hint') ?? 'generic') as Segment
   const sourceDomain = hint !== 'generic' ? hint : 'generic'
 
   const currentStep = step === '1' || !segmentParam ? 1 : 2
+
+  // In edit mode, load existing business data for pre-filling
+  let initialData: Record<string, unknown> | null = null
+  if (isEdit && segmentParam) {
+    const business = await getBusinessByUserId(user.id).catch(() => null)
+    if (business?.segment_data) {
+      initialData = business.segment_data as Record<string, unknown>
+    }
+  }
 
   return (
     <main className="min-h-screen" style={{ background: '#FAFAFA' }}>
@@ -55,10 +66,10 @@ export default async function OnboardingPage({ searchParams }: PageProps) {
           <SegmentSelector hint={hint} />
         ) : (
           <>
-            {segmentParam === 'retail'     && <RetailFields sourceDomain={sourceDomain} />}
-            {segmentParam === 'influencer' && <InfluencerFields sourceDomain={sourceDomain} />}
-            {segmentParam === 'horeca'     && <HoReCaFields sourceDomain={sourceDomain} />}
-            {segmentParam === 'info'       && <InfoBusinessFields sourceDomain={sourceDomain} />}
+            {segmentParam === 'retail'     && <RetailFields sourceDomain={sourceDomain} initialData={initialData} />}
+            {segmentParam === 'influencer' && <InfluencerFields sourceDomain={sourceDomain} initialData={initialData} />}
+            {segmentParam === 'horeca'     && <HoReCaFields sourceDomain={sourceDomain} initialData={initialData} />}
+            {segmentParam === 'info'       && <InfoBusinessFields sourceDomain={sourceDomain} initialData={initialData} />}
           </>
         )}
       </div>

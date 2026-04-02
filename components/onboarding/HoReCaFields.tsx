@@ -30,10 +30,20 @@ const ORDER_CHANNELS = [
   { id: 'phone',       label: 'Phone order' },
 ]
 
-export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
-  const [venueTypes,    setVenueTypes]  = useState<string[]>([])
-  const [orderChannels, setChannels]   = useState<string[]>([])
-  const [dishes,        setDishes]     = useState(['', '', '', '', ''])
+interface HoReCaFieldsProps {
+  sourceDomain: string
+  initialData?: Record<string, unknown> | null
+}
+
+export function HoReCaFields({ sourceDomain, initialData }: HoReCaFieldsProps) {
+  const d = initialData ?? {}
+  const [venueTypes,    setVenueTypes]  = useState<string[]>((d.venue_types as string[]) ?? [])
+  const [orderChannels, setChannels]   = useState<string[]>((d.order_channels as string[]) ?? [])
+  const [dishes,        setDishes]     = useState<string[]>(() => {
+    const saved = (d.top_dishes as string[]) ?? []
+    const arr = [...saved, '', '', '', '', ''].slice(0, 5)
+    return arr
+  })
   const [error,         setError]      = useState<string | null>(null)
   const [isPending,     startTransition] = useTransition()
 
@@ -62,7 +72,8 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Field label="Venue / brand name" required>
-          <input name="venue_name" type="text" required placeholder="e.g. Bella Piazza" className={inputCls} />
+          <input name="venue_name" type="text" required placeholder="e.g. Bella Piazza" className={inputCls}
+            defaultValue={(d.venue_name as string) ?? ''} />
         </Field>
 
         <Field label="Type of venue" hint="Select all that apply">
@@ -70,7 +81,7 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="Cuisine type">
-          <select name="cuisine" className={selectCls}>
+          <select name="cuisine" className={selectCls} defaultValue={(d.cuisine as string) ?? ''}>
             <option value="">Select cuisine</option>
             {CUISINES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -81,7 +92,8 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="City / neighbourhood" required>
-          <CityAutocomplete name="location" placeholder="e.g. Brussels, Ixelles" required />
+          <CityAutocomplete name="location" placeholder="e.g. Brussels, Ixelles" required
+            defaultValue={(d.location as string) ?? ''} />
         </Field>
 
         <Field label="Signature dishes" hint="Up to 5 — helps write mouth-watering copy">
@@ -98,23 +110,28 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="Current promotion or special">
-          <input name="current_promo" type="text" placeholder="e.g. Lunch menu €12, Happy Hour 4–6pm" className={inputCls} />
+          <input name="current_promo" type="text" placeholder="e.g. Lunch menu €12, Happy Hour 4–6pm" className={inputCls}
+            defaultValue={(d.current_promo as string) ?? ''} />
         </Field>
 
         <Field label="Average order / table value">
-          <input name="avg_order_value" type="text" placeholder="e.g. €18 per person" className={inputCls} />
+          <input name="avg_order_value" type="text" placeholder="e.g. €18 per person" className={inputCls}
+            defaultValue={(d.avg_order_value as string) ?? ''} />
         </Field>
 
         <Field label="Who are your ideal customers?">
-          <textarea name="target_customer" rows={2} placeholder="e.g. Families, office workers nearby, tourists" className={textareaCls} />
+          <textarea name="target_customer" rows={2} placeholder="e.g. Families, office workers nearby, tourists" className={textareaCls}
+            defaultValue={(d.target_customer as string) ?? ''} />
         </Field>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Website">
-            <UrlInput name="website_url" placeholder="bellapiazza.be" />
+            <UrlInput name="website_url" placeholder="bellapiazza.be"
+              defaultValue={(d.website_url as string) ?? ''} />
           </Field>
           <Field label="Instagram handle">
-            <input name="instagram_handle" type="text" placeholder="@bellapiazza" className={inputCls} />
+            <input name="instagram_handle" type="text" placeholder="@bellapiazza" className={inputCls}
+              defaultValue={(d.instagram_handle as string) ?? ''} />
           </Field>
         </div>
 

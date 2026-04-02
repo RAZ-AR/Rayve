@@ -26,9 +26,10 @@ const MONETIZATION = [
 
 const VOICES = ['Casual & friendly','Educational','Entertaining & fun','Premium & aspirational','Raw & authentic']
 
-export function InfluencerFields({ sourceDomain }: { sourceDomain: string }) {
-  const [platforms,    setPlatforms]    = useState<string[]>([])
-  const [monetization, setMonetization] = useState<string[]>([])
+export function InfluencerFields({ sourceDomain, initialData }: { sourceDomain: string; initialData?: Record<string, unknown> | null }) {
+  const d = initialData ?? {}
+  const [platforms,    setPlatforms]    = useState<string[]>((d.platforms as string[]) ?? [])
+  const [monetization, setMonetization] = useState<string[]>((d.monetization as string[]) ?? [])
   const [error,        setError]        = useState<string | null>(null)
   const [isPending,    startTransition] = useTransition()
 

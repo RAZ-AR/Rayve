@@ -6,10 +6,11 @@ import { inputCls } from './FormField'
 interface Props {
   name: string
   placeholder?: string
+  defaultValue?: string
 }
 
-export function UrlInput({ name, placeholder = 'https://yoursite.com' }: Props) {
-  const [value, setValue] = useState('')
+export function UrlInput({ name, placeholder = 'https://yoursite.com', defaultValue = '' }: Props) {
+  const [value, setValue] = useState(defaultValue)
 
   function handleBlur() {
     const v = value.trim()

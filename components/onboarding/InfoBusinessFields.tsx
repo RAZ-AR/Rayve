@@ -36,8 +36,9 @@ const GOALS = [
   { id: 'community',     label: 'Grow community' },
 ]
 
-export function InfoBusinessFields({ sourceDomain }: { sourceDomain: string }) {
-  const [productTypes, setProductTypes] = useState<string[]>([])
+export function InfoBusinessFields({ sourceDomain, initialData }: { sourceDomain: string; initialData?: Record<string, unknown> | null }) {
+  const d = initialData ?? {}
+  const [productTypes, setProductTypes] = useState<string[]>((d.product_types as string[]) ?? [])
   const [adGoals,      setAdGoals]      = useState<string[]>([])
   const [error,        setError]        = useState<string | null>(null)
   const [isPending,    startTransition] = useTransition()

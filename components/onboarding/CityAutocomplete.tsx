@@ -20,10 +20,11 @@ interface Props {
   name: string
   placeholder?: string
   required?: boolean
+  defaultValue?: string
 }
 
-export function CityAutocomplete({ name, placeholder = 'e.g. Brussels, Ixelles', required }: Props) {
-  const [value, setValue] = useState('')
+export function CityAutocomplete({ name, placeholder = 'e.g. Brussels, Ixelles', required, defaultValue = '' }: Props) {
+  const [value, setValue] = useState(defaultValue)
   const [suggestions, setSuggestions] = useState<NominatimResult[]>([])
   const [open, setOpen] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)

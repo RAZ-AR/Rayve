@@ -15,9 +15,13 @@ const SALES_CHANNELS = [
   { id: 'marketplace', label: 'Marketplace' },
 ]
 
-export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
-  const [channels, setChannels] = useState<string[]>([])
-  const [products, setProducts] = useState(['', '', '', '', ''])
+export function RetailFields({ sourceDomain, initialData }: { sourceDomain: string; initialData?: Record<string, unknown> | null }) {
+  const d = initialData ?? {}
+  const [channels, setChannels] = useState<string[]>((d.sales_channels as string[]) ?? [])
+  const [products, setProducts] = useState<string[]>(() => {
+    const saved = (d.key_products as string[]) ?? []
+    return [...saved, '', '', '', '', ''].slice(0, 5)
+  })
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
@@ -45,11 +49,12 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <Field label="Store / brand name" required>
-          <input name="store_name" type="text" required placeholder="e.g. Nova Studio" className={inputCls} />
+          <input name="store_name" type="text" required placeholder="e.g. Nova Studio" className={inputCls}
+            defaultValue={(d.store_name as string) ?? ''} />
         </Field>
 
         <Field label="Category" required>
-          <select name="category" required className={selectCls}>
+          <select name="category" required className={selectCls} defaultValue={(d.category as string) ?? ''}>
             <option value="">Select a category</option>
             {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
@@ -77,19 +82,22 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="Current promo or sale">
-          <input name="current_promo" type="text" placeholder="e.g. 20% off all summer items" className={inputCls} />
+          <input name="current_promo" type="text" placeholder="e.g. 20% off all summer items" className={inputCls}
+            defaultValue={(d.current_promo as string) ?? ''} />
         </Field>
 
         <Field label="Target customer description">
-          <textarea name="target_customer" rows={3} placeholder="e.g. Women 25–40 interested in sustainable fashion" className={textareaCls} />
+          <textarea name="target_customer" rows={3} placeholder="e.g. Women 25–40 interested in sustainable fashion" className={textareaCls}
+            defaultValue={(d.target_customer as string) ?? ''} />
         </Field>
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Website URL">
-            <UrlInput name="website_url" placeholder="yourshop.com" />
+            <UrlInput name="website_url" placeholder="yourshop.com" defaultValue={(d.website_url as string) ?? ''} />
           </Field>
           <Field label="Instagram handle">
-            <input name="instagram_handle" type="text" placeholder="@yourshop" className={inputCls} />
+            <input name="instagram_handle" type="text" placeholder="@yourshop" className={inputCls}
+              defaultValue={(d.instagram_handle as string) ?? ''} />
           </Field>
         </div>
 
