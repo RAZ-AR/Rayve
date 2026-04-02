@@ -14,7 +14,7 @@ export default async function LandingPage() {
   const config = SEGMENT_CONFIGS[segment]
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a]">
+    <main className="min-h-screen" style={{ background: 'var(--bg)' }}>
       <LandingNav />
       <HeroSection config={config} />
       <HowItWorks />
