@@ -4,12 +4,25 @@ import { createClient } from '@/lib/supabase/server'
 import { getBusinessByUserId } from '@/lib/db/businesses'
 import { SEGMENT_CONFIGS } from '@/lib/segments/config'
 import type { BusinessType } from '@/lib/segments/types'
+import type { AccountInsights } from '@/app/api/meta/account-insights/route'
 
 function getGreeting(): string {
   const h = new Date().getHours()
   if (h < 12) return 'Доброе утро'
   if (h < 18) return 'Добрый день'
   return 'Добрый вечер'
+}
+
+async function fetchAccountInsights(baseUrl: string): Promise<AccountInsights | null> {
+  try {
+    const res = await fetch(`${baseUrl}/api/meta/account-insights`, {
+      next: { revalidate: 3600 },
+    })
+    const json = await res.json()
+    return json.insights ?? null
+  } catch {
+    return null
+  }
 }
 
 export default async function DashboardPage() {
@@ -23,6 +36,42 @@ export default async function DashboardPage() {
   const cfg = SEGMENT_CONFIGS[business.business_type as BusinessType]
   const displayName = business.name || user.email?.split('@')[0] || 'there'
   const greeting = getGreeting()
+
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
+  const insights = business.meta_access_token && business.meta_ad_account_id
+    ? await fetchAccountInsights(appUrl)
+    : null
+
+  const stats = [
+    {
+      label: 'Campaigns',
+      value: insights ? String(insights.campaigns) : '0',
+      sub: 'total',
+      color: '#009ed3',
+      live: !!insights,
+    },
+    {
+      label: 'Spend',
+      value: insights ? `€${insights.spend.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : '€0',
+      sub: 'lifetime',
+      color: '#0EA5E9',
+      live: !!insights,
+    },
+    {
+      label: 'Clicks',
+      value: insights ? insights.clicks.toLocaleString('de-DE') : '0',
+      sub: 'total',
+      color: '#10B981',
+      live: !!insights,
+    },
+    {
+      label: 'ROAS',
+      value: insights?.roas != null ? `${insights.roas}×` : '—',
+      sub: 'avg',
+      color: '#F59E0B',
+      live: !!insights,
+    },
+  ]
 
   return (
     <div className="animate-fade-in">
@@ -67,19 +116,22 @@ export default async function DashboardPage() {
 
         {/* Stats row */}
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {[
-            { label: 'Campaigns',  value: '0',  sub: 'total',    color: '#009ed3' },
-            { label: 'Spend',      value: '€0', sub: 'lifetime', color: '#0EA5E9' },
-            { label: 'Clicks',     value: '0',  sub: 'total',    color: '#10B981' },
-            { label: 'ROAS',       value: '—',  sub: 'avg',      color: '#F59E0B' },
-          ].map((s) => (
+          {stats.map((s) => (
             <div
               key={s.label}
               className="rounded-2xl p-4 transition-all hover:shadow-sm"
               style={{ background: '#fff', border: '1px solid var(--border)' }}
             >
-              <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: `${s.color}18` }}>
-                <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
+              <div className="mb-3 flex items-center justify-between">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: `${s.color}18` }}>
+                  <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
+                </div>
+                {s.live && (
+                  <span className="flex items-center gap-1 text-[10px] font-medium" style={{ color: '#10B981' }}>
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    live
+                  </span>
+                )}
               </div>
               <p className="text-xl font-bold tracking-tight" style={{ color: 'var(--text)' }}>{s.value}</p>
               <p className="mt-0.5 text-xs font-medium" style={{ color: 'var(--text-muted)' }}>{s.label} · {s.sub}</p>
