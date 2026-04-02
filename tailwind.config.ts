@@ -16,53 +16,37 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Editorial Warm palette
-        border:     '#E2DDD3',
-        input:      '#E2DDD3',
-        ring:       '#6D28D9',
-        background: '#FFFEF9',
-        foreground: '#1C1917',
+        border:     '#E4E6EA',
+        input:      '#E4E6EA',
+        ring:       '#009ed3',
+        background: '#FFFFFF',
+        foreground: '#111827',
 
-        primary:     { DEFAULT: '#6D28D9', foreground: '#FFFFFF' },
-        secondary:   { DEFAULT: '#F0EBE0', foreground: '#78716C' },
+        primary:     { DEFAULT: '#009ed3', foreground: '#FFFFFF' },
+        secondary:   { DEFAULT: '#F0F2F5', foreground: '#6b7280' },
         destructive: { DEFAULT: '#DC2626', foreground: '#FFFFFF' },
-        muted:       { DEFAULT: '#F0EBE0', foreground: '#78716C' },
-        accent:      { DEFAULT: '#EDE9FE', foreground: '#4C1D95' },
-        popover:     { DEFAULT: '#FFFEF9', foreground: '#1C1917' },
-        card:        { DEFAULT: '#F0EBE0', foreground: '#1C1917' },
+        muted:       { DEFAULT: '#F0F2F5', foreground: '#6b7280' },
+        accent:      { DEFAULT: '#e0f5fb', foreground: '#005a7a' },
+        popover:     { DEFAULT: '#FFFFFF', foreground: '#111827' },
+        card:        { DEFAULT: '#FFFFFF', foreground: '#111827' },
 
-        // Brand tokens
-        warm: {
-          50:  '#FFFEF9',
-          100: '#F7F3EA',
-          200: '#F0EBE0',
-          300: '#E8E2D5',
-          400: '#DDD7C8',
-          500: '#CCC8BD',
-          600: '#A8A29E',
-          700: '#78716C',
-          800: '#57534E',
-          900: '#1C1917',
-        },
-
-        // Accent violet (brand)
-        violet: {
-          50:  '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
+        // Brand blue
+        blue: {
+          50:  '#e0f5fb',
+          100: '#b3e5f5',
+          200: '#80d4ef',
+          300: '#4dc2e8',
+          400: '#26b5e3',
+          500: '#009ed3',
+          600: '#0087b5',
+          700: '#006f96',
+          800: '#005a7a',
+          900: '#003a5e',
         },
 
         // Segment accent colours
         seg: {
-          retail:     '#6D28D9',
+          retail:     '#009ed3',
           influencer: '#BE185D',
           horeca:     '#B45309',
           info:       '#1D4ED8',
@@ -70,19 +54,19 @@ const config: Config = {
       },
 
       borderRadius: {
-        sm:   '0.25rem',
-        md:   '0.375rem',
-        DEFAULT: '0.625rem',
-        lg:   '0.625rem',
-        xl:   '0.875rem',
-        '2xl': '1.125rem',
-        '3xl': '1.5rem',
+        sm:   '0.375rem',
+        md:   '0.5rem',
+        DEFAULT: '0.75rem',
+        lg:   '0.75rem',
+        xl:   '1rem',
+        '2xl': '1.25rem',
+        '3xl': '1.75rem',
         full: '9999px',
       },
 
       fontFamily: {
-        sans: ['var(--font-geist-sans)', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['var(--font-geist-mono)', 'ui-monospace', 'monospace'],
+        sans: ['var(--font-sans)', 'Nunito', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'monospace'],
       },
 
       fontSize: {
@@ -127,10 +111,10 @@ const config: Config = {
       },
 
       boxShadow: {
-        'card':   '0 1px 3px rgba(28,25,23,0.07), 0 1px 2px rgba(28,25,23,0.05)',
-        'card-md':'0 4px 12px rgba(28,25,23,0.08), 0 1px 3px rgba(28,25,23,0.05)',
-        'card-lg':'0 12px 32px rgba(28,25,23,0.10), 0 2px 6px rgba(28,25,23,0.06)',
-        'inner':  'inset 0 1px 0 rgba(255,255,255,0.6)',
+        'card':   '0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
+        'card-md':'0 4px 16px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)',
+        'card-lg':'0 12px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)',
+        'inner':  'inset 0 1px 0 rgba(255,255,255,0.7)',
       },
     },
   },

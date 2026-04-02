@@ -48,9 +48,9 @@ export default async function DashboardPage() {
                 href={`/chat?prompt=${encodeURIComponent(s)}`}
                 className="flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-medium transition-all hover:opacity-90 active:scale-95"
                 style={{
-                  background: 'rgba(255,255,255,0.1)',
-                  border: '1px solid rgba(255,255,255,0.15)',
-                  color: 'rgba(248,250,252,0.85)',
+                  background: 'rgba(255,255,255,0.15)',
+                  border: '1px solid rgba(255,255,255,0.25)',
+                  color: 'rgba(255,255,255,0.9)',
                   backdropFilter: 'blur(8px)',
                 }}
               >
@@ -68,7 +68,7 @@ export default async function DashboardPage() {
         {/* Stats row */}
         <div className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: 'Campaigns',  value: '0',  sub: 'total',    color: '#7C3AED' },
+            { label: 'Campaigns',  value: '0',  sub: 'total',    color: '#009ed3' },
             { label: 'Spend',      value: '€0', sub: 'lifetime', color: '#0EA5E9' },
             { label: 'Clicks',     value: '0',  sub: 'total',    color: '#10B981' },
             { label: 'ROAS',       value: '—',  sub: 'avg',      color: '#F59E0B' },

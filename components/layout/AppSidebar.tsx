@@ -87,7 +87,7 @@ function SidebarItem({
         background: active ? 'var(--sidebar-active-bg)' : 'transparent',
       }}
       onMouseEnter={(e) => {
-        if (!active) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)'
+        if (!active) (e.currentTarget as HTMLElement).style.background = 'rgba(0,0,0,0.06)'
       }}
       onMouseLeave={(e) => {
         if (!active) (e.currentTarget as HTMLElement).style.background = 'transparent'

@@ -23,7 +23,7 @@ export function MobileNav() {
       <button
         onClick={() => setOpen(true)}
         className="flex h-8 w-8 items-center justify-center rounded-xl transition-all"
-        style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--sidebar-text)' }}
+        style={{ background: 'rgba(0,0,0,0.06)', color: 'var(--sidebar-text)' }}
         aria-label="Menu"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -39,14 +39,14 @@ export function MobileNav() {
             <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           </svg>
         </div>
-        <span className="text-sm font-black tracking-tight" style={{ color: '#F1F5F9' }}>Rayve</span>
+        <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
       </Link>
 
       {/* Backdrop */}
       {open && (
         <div
           className="fixed inset-0 z-40"
-          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
+          style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}
           onClick={() => setOpen(false)}
         />
       )}
@@ -67,12 +67,12 @@ export function MobileNav() {
                 <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
               </svg>
             </div>
-            <span className="text-sm font-black tracking-tight" style={{ color: '#F1F5F9' }}>Rayve</span>
+            <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>Rayve</span>
           </div>
           <button
             onClick={() => setOpen(false)}
             className="flex h-7 w-7 items-center justify-center rounded-lg transition-all"
-            style={{ color: 'var(--sidebar-text)', background: 'rgba(255,255,255,0.06)' }}
+            style={{ color: 'var(--sidebar-text)', background: 'rgba(0,0,0,0.06)' }}
           >
             <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M2 2l10 10M12 2L2 12" strokeLinecap="round"/>
@@ -88,7 +88,7 @@ export function MobileNav() {
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-all"
+                className="flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-semibold transition-all"
                 style={active ? {
                   background: 'var(--sidebar-active-bg)',
                   color: 'var(--sidebar-active-text)',

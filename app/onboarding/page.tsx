@@ -85,8 +85,8 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
               n < current
                 ? { background: 'var(--accent)', color: '#fff' }
                 : n === current
-                ? { border: '1.5px solid var(--accent)', color: 'rgba(196,181,253,0.9)', background: 'rgba(124,58,237,0.12)' }
-                : { border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.25)' }
+                ? { border: '1.5px solid var(--accent)', color: 'var(--accent)', background: 'var(--accent-subtle)' }
+                : { border: '1px solid var(--sidebar-border)', color: 'var(--sidebar-text)' }
             }
           >
             {n < current ? '✓' : n}
@@ -94,12 +94,12 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
           {n < total && (
             <div
               className="h-px w-8 transition-all"
-              style={{ background: n < current ? 'rgba(124,58,237,0.5)' : 'rgba(255,255,255,0.08)' }}
+              style={{ background: n < current ? 'var(--accent)' : 'var(--sidebar-border)' }}
             />
           )}
         </div>
       ))}
-      <span className="ml-1 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
+      <span className="ml-1 text-xs font-semibold" style={{ color: 'var(--sidebar-text)' }}>
         Step {current} of {total}
       </span>
     </div>
