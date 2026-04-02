@@ -1,45 +1,34 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
-import { getBusinessByUserId } from '@/lib/db/businesses'
 import { AppSidebar } from './AppSidebar'
-import { AppHeader } from './AppHeader'
 import { MobileNav } from './MobileNav'
 
 export async function AppShell({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-
+  const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  const business = await getBusinessByUserId(user.id).catch(() => null)
-
   return (
-    <div className="flex h-screen" style={{ background: 'var(--bg)', color: 'var(--text)' }}>
-      {/* Desktop sidebar */}
-      <div className="hidden lg:flex lg:flex-shrink-0">
+    <div className="flex h-screen overflow-hidden" style={{ background: 'var(--bg-muted)' }}>
+      {/* Desktop sidebar — 64px dark */}
+      <div className="hidden lg:flex lg:shrink-0">
         <AppSidebar />
       </div>
 
-      {/* Main area */}
-      <div className="flex flex-1 flex-col overflow-hidden">
-        {/* Header row — mobile nav + AppHeader */}
-        <div className="flex items-center" style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="flex items-center px-4 lg:hidden">
-            <MobileNav />
-          </div>
-          <div className="flex-1">
-            <AppHeader
-              userEmail={user.email ?? null}
-              businessType={business?.business_type ?? null}
-              businessName={business?.name ?? null}
-            />
-          </div>
-        </div>
-
-        <main className="flex-1 overflow-y-auto">{children}</main>
+      {/* Mobile top bar */}
+      <div
+        className="fixed inset-x-0 top-0 z-40 flex h-12 items-center px-4 lg:hidden"
+        style={{ background: 'var(--sidebar-bg)', borderBottom: '1px solid var(--sidebar-border)' }}
+      >
+        <MobileNav />
       </div>
+
+      {/* Main content */}
+      <main className="flex flex-1 flex-col overflow-hidden pt-12 lg:pt-0">
+        <div className="flex-1 overflow-y-auto">
+          {children}
+        </div>
+      </main>
     </div>
   )
 }

@@ -21,11 +21,11 @@ export default async function ChatPage({ searchParams }: Props) {
   const initialInput = prompt ? decodeURIComponent(prompt) : ''
 
   // Surface clear error instead of runtime crash
-  if (!process.env.ANTHROPIC_API_KEY) {
+  if (!process.env.GOOGLE_AI_API_KEY) {
     return (
       <div
         className="flex h-[calc(100vh-48px)] items-center justify-center p-8"
-        style={{ background: 'var(--bg-warm)' }}
+        style={{ background: 'var(--bg-muted)' }}
       >
         <div
           className="max-w-sm rounded-xl px-6 py-8 text-center"
@@ -41,7 +41,7 @@ export default async function ChatPage({ searchParams }: Props) {
               className="rounded px-1 py-0.5 font-mono text-[11px]"
               style={{ background: 'var(--surface)', color: 'var(--text)' }}
             >
-              ANTHROPIC_API_KEY
+              GOOGLE_AI_API_KEY
             </code>{' '}
             to{' '}
             <code

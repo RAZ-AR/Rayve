@@ -3,15 +3,14 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { cn } from '@/lib/utils'
 
 const NAV = [
-  { href: '/dashboard',       label: 'Dashboard' },
-  { href: '/chat',            label: 'New Campaign' },
-  { href: '/campaigns',       label: 'Campaigns' },
-  { href: '/creative-studio', label: 'Creative Studio' },
-  { href: '/business-brain',  label: 'Business Brain' },
-  { href: '/settings',        label: 'Settings' },
+  { href: '/dashboard',       label: 'Dashboard',       emoji: '🏠' },
+  { href: '/chat',            label: 'New Campaign',    emoji: '✨' },
+  { href: '/campaigns',       label: 'Campaigns',       emoji: '📢' },
+  { href: '/creative-studio', label: 'Creative Studio', emoji: '🎨' },
+  { href: '/business-brain',  label: 'Business Brain',  emoji: '🧠' },
+  { href: '/settings',        label: 'Settings',        emoji: '⚙️' },
 ]
 
 export function MobileNav() {
@@ -20,14 +19,11 @@ export function MobileNav() {
 
   return (
     <>
+      {/* Hamburger */}
       <button
         onClick={() => setOpen(true)}
-        className="flex h-7 w-7 items-center justify-center rounded-md transition-all lg:hidden"
-        style={{
-          border: '1px solid var(--border)',
-          color: 'var(--text-secondary)',
-          background: 'transparent',
-        }}
+        className="flex h-8 w-8 items-center justify-center rounded-xl transition-all"
+        style={{ background: 'rgba(255,255,255,0.08)', color: 'var(--sidebar-text)' }}
         aria-label="Menu"
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -35,58 +31,72 @@ export function MobileNav() {
         </svg>
       </button>
 
+      {/* Logo in mobile bar */}
+      <Link href="/dashboard" className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+        <div className="flex h-6 w-6 items-center justify-center rounded-lg" style={{ background: 'var(--accent)' }}>
+          <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </div>
+        <span className="text-sm font-black tracking-tight" style={{ color: '#F1F5F9' }}>Rayve</span>
+      </Link>
+
+      {/* Backdrop */}
       {open && (
         <div
-          className="fixed inset-0 z-40 lg:hidden"
-          style={{ background: 'rgba(28,25,23,0.4)', backdropFilter: 'blur(2px)' }}
+          className="fixed inset-0 z-40"
+          style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}
           onClick={() => setOpen(false)}
         />
       )}
 
+      {/* Drawer */}
       <aside
-        className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-56 flex-col transition-transform duration-200 lg:hidden',
-          open ? 'translate-x-0' : '-translate-x-full'
-        )}
-        style={{
-          background: 'var(--bg-warm)',
-          borderRight: '1px solid var(--border)',
-        }}
+        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col transition-transform duration-200 ${open ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ background: 'var(--sidebar-bg)', borderRight: '1px solid var(--sidebar-border)' }}
       >
         <div
-          className="flex h-12 items-center justify-between px-4"
-          style={{ borderBottom: '1px solid var(--border)' }}
+          className="flex h-14 items-center justify-between px-5"
+          style={{ borderBottom: '1px solid var(--sidebar-border)' }}
         >
-          <span className="text-sm font-black tracking-tight" style={{ color: 'var(--text)' }}>
-            Rayve
-          </span>
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: 'var(--accent)' }}>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                <path d="M2 10L6 2L10 10" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3.5 7.5H8.5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <span className="text-sm font-black tracking-tight" style={{ color: '#F1F5F9' }}>Rayve</span>
+          </div>
           <button
             onClick={() => setOpen(false)}
-            style={{ color: 'var(--text-muted)' }}
-            className="transition-colors hover:text-[var(--text)]"
-            aria-label="Close"
+            className="flex h-7 w-7 items-center justify-center rounded-lg transition-all"
+            style={{ color: 'var(--sidebar-text)', background: 'rgba(255,255,255,0.06)' }}
           >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M2 2l10 10M12 2L2 12" strokeLinecap="round"/>
             </svg>
           </button>
         </div>
-        <nav className="flex flex-col gap-0.5 px-2 py-3">
-          {NAV.map(({ href, label }) => {
+
+        <nav className="flex flex-col gap-1 px-3 py-4">
+          {NAV.map(({ href, label, emoji }) => {
             const active = pathname === href || (href !== '/dashboard' && pathname.startsWith(href))
             return (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
-                className="flex h-8 items-center rounded-lg px-2.5 text-[13px] font-medium transition-all"
+                className="flex h-10 items-center gap-3 rounded-xl px-3 text-sm font-medium transition-all"
                 style={active ? {
-                  background: 'var(--accent-light)',
-                  color: 'var(--accent-text)',
+                  background: 'var(--sidebar-active-bg)',
+                  color: 'var(--sidebar-active-text)',
                 } : {
-                  color: 'var(--text-secondary)',
+                  color: 'var(--sidebar-text)',
                 }}
               >
+                <span>{emoji}</span>
                 {label}
               </Link>
             )
