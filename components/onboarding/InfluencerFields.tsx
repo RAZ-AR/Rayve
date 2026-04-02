@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls } from './FormField'
 import { StepHeader, FormError, FormActions } from './RetailFields'
+import { UrlInput } from './UrlInput'
 
 const NICHES = ['Lifestyle','Fitness & Health','Beauty & Fashion','Food & Cooking','Finance & Business','Travel','Gaming','Tech','Other']
 
@@ -101,7 +102,7 @@ export function InfluencerFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="Link-in-bio URL">
-          <input name="link_in_bio_url" type="url" placeholder="https://linktr.ee/you" className={inputCls} />
+          <UrlInput name="link_in_bio_url" placeholder="linktr.ee/you" />
         </Field>
 
         <FormError error={error} />

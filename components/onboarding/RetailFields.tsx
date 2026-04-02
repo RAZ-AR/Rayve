@@ -3,6 +3,7 @@
 import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls, textareaCls } from './FormField'
+import { UrlInput } from './UrlInput'
 
 const CATEGORIES = ['Fashion & Apparel','Beauty & Cosmetics','Electronics','Food & Beverages','Home & Living','Sports & Fitness','Toys & Kids','Other']
 
@@ -85,7 +86,7 @@ export function RetailFields({ sourceDomain }: { sourceDomain: string }) {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Website URL">
-            <input name="website_url" type="url" placeholder="https://yourshop.com" className={inputCls} />
+            <UrlInput name="website_url" placeholder="yourshop.com" />
           </Field>
           <Field label="Instagram handle">
             <input name="instagram_handle" type="text" placeholder="@yourshop" className={inputCls} />

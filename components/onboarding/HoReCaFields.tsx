@@ -4,6 +4,8 @@ import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls, textareaCls } from './FormField'
 import { StepHeader, FormError, FormActions } from './RetailFields'
+import { CityAutocomplete } from './CityAutocomplete'
+import { UrlInput } from './UrlInput'
 
 const VENUE_TYPES = [
   { id: 'restaurant',   label: 'Restaurant' },
@@ -79,7 +81,7 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
         </Field>
 
         <Field label="City / neighbourhood" required>
-          <input name="location" type="text" required placeholder="e.g. Brussels, Ixelles" className={inputCls} />
+          <CityAutocomplete name="location" placeholder="e.g. Brussels, Ixelles" required />
         </Field>
 
         <Field label="Signature dishes" hint="Up to 5 — helps write mouth-watering copy">
@@ -109,7 +111,7 @@ export function HoReCaFields({ sourceDomain }: { sourceDomain: string }) {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Website">
-            <input name="website_url" type="url" placeholder="https://bellapiazza.be" className={inputCls} />
+            <UrlInput name="website_url" placeholder="bellapiazza.be" />
           </Field>
           <Field label="Instagram handle">
             <input name="instagram_handle" type="text" placeholder="@bellapiazza" className={inputCls} />

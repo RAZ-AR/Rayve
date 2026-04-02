@@ -4,6 +4,7 @@ import { useState, useTransition } from 'react'
 import { saveOnboarding } from '@/app/onboarding/actions'
 import { Field, ChipGroup, inputCls, selectCls, textareaCls } from './FormField'
 import { StepHeader, FormError, FormActions } from './RetailFields'
+import { UrlInput } from './UrlInput'
 
 const PRODUCT_TYPES = [
   { id: 'online_course', label: 'Online course' },
@@ -101,7 +102,7 @@ export function InfoBusinessFields({ sourceDomain }: { sourceDomain: string }) {
 
         <div className="grid gap-3 sm:grid-cols-2">
           <Field label="Landing page or sales page">
-            <input name="website_url" type="url" placeholder="https://elevatecoaching.com" className={inputCls} />
+            <UrlInput name="website_url" placeholder="elevatecoaching.com" />
           </Field>
           <Field label="Instagram / TikTok handle">
             <input name="instagram_handle" type="text" placeholder="@elevatecoaching" className={inputCls} />
